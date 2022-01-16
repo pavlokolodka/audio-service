@@ -1,0 +1,46 @@
+<h2 class="header">List of tracks</h2>
+<div class="header-colum">
+  <h5 class="title">Title</h5>
+  <h5 class="artist">Artist</h5>
+  <h5 class="number">Number of plays</h5>
+</div>  
+{{#if tracks.length}}
+
+  {{#each tracks}}
+    <div class="col s12 m7">
+    
+    <div class="card horizontal">
+      <div class="card-image">
+        <img src="{{img}}">
+      </div>
+      
+      <div class="card-stacked">
+        <div class="card-content">
+          <div class="card-description">
+          <div>{{name}}</div>
+          <div>{{artist}}</div>
+          <div>{{listens}}</div>
+         </div> 
+        <div class="card-player">
+        <audio controls>
+              <source src="1.mp3" type="audio/mpeg">
+              Your browser does not support the
+                        <code>audio</code> element.
+        </audio>
+        <div class="track-reference">
+          <a href="#">Open</a>
+        </div>
+</div>
+ 
+
+
+ 
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+  {{/each}}
+{{/if}}
+
