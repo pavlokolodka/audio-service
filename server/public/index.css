@@ -1,0 +1,59 @@
+.header-colum{
+  display: flex;
+  justify-content: space-between;
+  margin-left: 10px;
+}
+
+.title{
+  margin-left: 100px;
+}
+
+.artist{
+  margin-left: 155px;
+}
+
+
+.number{
+  margin-right: 10px;
+}
+
+.card-action{
+  padding-right: 10px;
+}
+
+.card-image{
+  width: 90px;
+  height: 100px;
+}
+
+.card-content{
+  justify-content: space-between;
+}
+
+.card-description{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 15px;
+}
+
+.card-player {
+  margin-top: 30px;
+  margin-left: -115px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.track-reference {
+  margin-top: 15px;
+}
+
+.card.horizontal{
+  height: 145px;
+  background-color: lavenderblush;
+}
+
+
+
+
+/*card.horizontal{
+  height: 100px;*/

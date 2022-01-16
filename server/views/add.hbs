@@ -1,0 +1,66 @@
+<h1>Add a new track</h1>
+
+
+<form action="/add" method="POST">
+  <div class="input-field">
+    <input  id="name" name="name" type="text" class="validate" required value="{{name}}">
+     <span class="helper-text" data-error="Input a track title"></span>
+    <label for="name">Name of the track</label>
+  </div>
+
+  <div class="input-field">
+    <input  id="artist" name="artist" type="text" class="validate" required value="{{artist}}">
+     <span class="helper-text" data-error="Input an artist name"></span>
+    <label for="artist">Artist name</label>
+  </div>
+
+
+  <div class="input-field">
+    <input  id="description" name="description" type="text" class="validate" required value="{{description}}">
+     <span class="helper-text" data-error="Input a description"></span>
+    <label for="description">Description</label>
+  </div>
+
+
+  <div class="input-field">
+    <input  id="img" name="img" type="text" class="validate" required value="{{img}}">
+    <label for="img">Picture</label>
+    <span class="helper-text" data-error="Upload picture"></span>
+  </div>
+
+
+   <div class="input-field">
+    <input  id="audio" name="audio" type="text" class="validate" required value="{{audio}}">
+    <label for="audio">Audio</label>
+    <span class="helper-text" data-error="Upload audio"></span>
+  </div>
+<!-- 
+   <form action="#">
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>File</span>
+        <input type="file">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+  </form>
+
+
+   <form action="#">
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>Audio</span>
+        <input type="file">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+  </form>
+-->
+    
+    
+  <button class="btn btn-primary">Submit</button>
+</form>
