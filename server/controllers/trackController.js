@@ -3,8 +3,11 @@ const Track = require('../models/track')
 
 exports.getAll = async (req, res) => {
   try {
-    const tracks = await Track.find();
-    res.json(tracks);
+    const tracks = await Track.find().select('name artist img audio listens')
+    res.render('tracks', {
+      title: 'Tracks',
+      tracks
+    });
   } catch (e) {
     console.log(e);
   }
@@ -15,7 +18,11 @@ exports.getAll = async (req, res) => {
 exports.getOne = async (req, res) => {
   try {
     const track = await Track.findById(req.params.id);
-    res.json(track);  
+    res.render('track', {
+      layout: 'empty',
+      title: `${track.name}`,
+      track
+    });  
   } catch (e) {
     console.log(e);
   }
@@ -23,18 +30,34 @@ exports.getOne = async (req, res) => {
 
 
 
+exports.getAddPage = (req, res) => {
+  try {
+    res.render('add', {
+      title: 'Add track'
+    });
+  } catch(e) {
+    console.log(e);
+  }
+  
+}
+
+
+
 exports.create = async (req, res) => {
+  const audioPath = req.files['audio'][0].path;
+  const imgPath = req.files['img'][0].path;
+
   const track = new Track({
     name: req.body.name,
     artist: req.body.artist,
     description: req.body.description,
-    img: req.body.img,
-    audio: req.body.audio
+    img: imgPath,
+    audio: audioPath
   })
 
   try {
-    const saveTrack = await track.save();
-    res.json(saveTrack)
+    await track.save();
+    res.redirect('/tracks')
   } catch (e) {
     console.log(e);
   }
