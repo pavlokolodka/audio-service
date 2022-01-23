@@ -7,10 +7,11 @@ const exphbs = require('express-handlebars');
 const Handlebars = require("handlebars");
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 const path = require('path');
+require('dotenv').config();
+const fileMiddleware = require('./middleware/file')
 
 const app = express();
 const PORT = process.env.PORT || 3000; 
-
 
 app.use(cors());
 app.use(express.json());
@@ -25,8 +26,11 @@ app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', 'views');
 
-app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
+app.use(fileMiddleware.fields([{name: 'img', maxCount: 1}, {name: 'audio', maxCount: 1}]))
 
 
 app.use('/add', addRouter);
@@ -39,7 +43,8 @@ app.use('/', (req, res) => {
 
 async function start() {
   try {
-    await mongoose.connect('mongodb+srv://Pashka:pashka@cluster0.pskap.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+    await mongoose.connect(
+    process.env.MONGODB_URI,
     {useNewUrlParser: true}, 
     () => console.log('connected to DB')
     );
