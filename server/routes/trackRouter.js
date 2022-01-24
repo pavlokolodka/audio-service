@@ -7,16 +7,28 @@ const trackController = require('../controllers/trackController')
 router.get('/', trackController.getAll);
 
 
-router.get('/:id', trackController.getOne)
+router.get('/add', trackController.getAddPage);
 
 
-router.get('/search', trackController.search)
+router.get('/:id', trackController.getOne);
 
 
-router.delete('/:id', trackController.delete)
+router.get('/search', trackController.search);
 
 
-router.post('/listen/:id', trackController.listen)
+router.get('/:id/edit', trackController.getEdit);
+
+
+router.delete('/:id/delete', trackController.delete);
+
+
+router.put('/:id/update', trackController.update);
+
+
+router.post('/listen/:id', trackController.listen);
+
+
+router.post('/create', trackController.create);
 
 
 

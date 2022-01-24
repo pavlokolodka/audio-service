@@ -1,3 +1,7 @@
+.card.horizontal .card-image img {
+  height: 90px;
+}  
+
 .header-colum{
   display: flex;
   justify-content: space-between;
@@ -38,7 +42,7 @@
 
 .card-player {
   margin-top: 30px;
-  margin-left: -115px;
+  margin-left: -114px;
   display: flex;
   justify-content: space-between;
 }
@@ -52,8 +56,3 @@
   background-color: lavenderblush;
 }
 
-
-
-
-/*card.horizontal{
-  height: 100px;*/

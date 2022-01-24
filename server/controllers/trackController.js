@@ -43,6 +43,20 @@ exports.getAddPage = (req, res) => {
 
 
 
+exports.getEdit = async (req, res) => {
+  try {
+    const track = await Track.findById(req.params.id);
+    res.render('track-edit', {
+      title: `Edit ${track.name}`,
+      track
+    })
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+
+
 exports.create = async (req, res) => {
   const audioPath = req.files['audio'][0].path;
   const imgPath = req.files['img'][0].path;
@@ -81,7 +95,26 @@ exports.search = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
     const deletedTrack = await Track.deleteOne({_id: req.params.id});
-    res.json(deletedTrack);
+    res.redirect('/tracks');
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+
+
+exports.update = async (req, res) => {
+  const audioPath = req.files['audio'][0].path;
+  const imgPath = req.files['img'][0].path;
+  try {
+    await Track.findByIdAndUpdate(req.params.id, {
+      name: req.body.name,
+      artist: req.body.artist,
+      description: req.body.description,
+      img: imgPath,
+      audio: audioPath
+    });
+    res.redirect('/tracks');
   } catch (e) {
     console.log(e);
   }

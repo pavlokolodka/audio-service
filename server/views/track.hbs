@@ -1,46 +1,24 @@
-<h2 class="header">List of tracks</h2>
-<div class="header-colum">
-  <h5 class="title">Title</h5>
-  <h5 class="artist">Artist</h5>
-  <h5 class="number">Number of plays</h5>
-</div>  
-{{#if tracks.length}}
-
-  {{#each tracks}}
+ <div class="row">
     <div class="col s12 m7">
-    
-    <div class="card horizontal">
-      <div class="card-image">
-        <img src="{{img}}">
-      </div>
-      
-      <div class="card-stacked">
+      <div class="card">
+        <div class="card-image">
+          <img src="../{{track.img}}" alt="{{track.name}}">
+          <span class="card-title">{{track.name}}</span>
+        </div>
         <div class="card-content">
-          <div class="card-description">
-          <div>{{name}}</div>
-          <div>{{artist}}</div>
-          <div>{{listens}}</div>
-         </div> 
-        <div class="card-player">
-        <audio controls>
-              <source src="1.mp3" type="audio/mpeg">
+          <div>Artist - {{track.artist}}</div>
+          <div>Listens - {{track.listens}}</div>
+          <div>Description - {{track.description}}</div>
+          <audio controls>
+              <source src="../{{track.audio}}" type="audio/mpeg">
+              <source src="../{{track.audio}}" type="audio/ogg">
               Your browser does not support the
                         <code>audio</code> element.
         </audio>
-        <div class="track-reference">
-          <a href="#">Open</a>
         </div>
-</div>
- 
-
-
- 
+        <div class="card-action">
+          <a href="/tracks/{{id}}">This is a link</a>
         </div>
-        
       </div>
     </div>
   </div>
-  
-  {{/each}}
-{{/if}}
-
