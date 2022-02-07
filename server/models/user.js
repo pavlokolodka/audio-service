@@ -17,7 +17,7 @@ const userSchema = new Schema({
   album: [{
     trackId: {
       type: Schema.Types.ObjectId,
-      required: true
+      ref: 'Track'
     },
     date: {
       type: Date,
