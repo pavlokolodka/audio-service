@@ -1,22 +1,25 @@
 <h1>Add a new track</h1>
 
+{{#if addError}}
+   <div class="alert-errors">{{addError}}</div>
+ {{/if}}
 
 <form action="/tracks/create" method="POST" enctype="multipart/form-data">
   <div class="input-field">
-    <input  id="name" name="name" type="text" class="validate" required value="{{name}}">
+    <input  id="name" name="name" type="text" class="validate" required value="{{data.name}}">
      <span class="helper-text" data-error="Input a track title"></span>
     <label for="name">Name of the track</label>
   </div>
 
   <div class="input-field">
-    <input  id="artist" name="artist" type="text" class="validate" required value="{{artist}}">
+    <input  id="artist" name="artist" type="text" class="validate" required value="{{data.artist}}">
      <span class="helper-text" data-error="Input an artist name"></span>
     <label for="artist">Artist name</label>
   </div>
 
 
   <div class="input-field">
-    <input  id="description" name="description" type="text" class="validate" required value="{{description}}">
+    <input  id="description" name="description" type="text" class="validate" required value="{{data.description}}">
      <span class="helper-text" data-error="Input a description"></span>
     <label for="description">Description</label>
   </div>

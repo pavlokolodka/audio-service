@@ -1,5 +1,10 @@
+
 <h1>Edit track - {{track.name}}</h1>
-<h1>{{id}}</h1>
+
+{{#if editError}}
+   <div class="alert-errors">{{editError}}</div>
+ {{/if}}
+
 
 <form action="/tracks/{{track.id}}/update?_method=PUT" method="POST" enctype="multipart/form-data">
   <div class="input-field">

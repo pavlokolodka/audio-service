@@ -1,13 +1,16 @@
-<h2 class="header">List of tracks</h2>
+{{#if tracks.length}}
+<h2 class="header">Your album</h2>
 {{#if albumError}}
   <div class="alert-errors">{{albumError}}</div>
 {{/if}}
+
+
 <div class="header-colum">
   <h5 class="title">Title</h5>
   <h5 class="artist">Artist</h5>
-  <h5 class="number">Number of plays</h5>
+  <h5 class="number">Date added</h5>
 </div>  
-{{#if tracks.length}}
+
 
   {{#each tracks}}
   
@@ -23,7 +26,7 @@
           <div class="card-description">
           <div>{{name}}</div>
           <div>{{artist}}</div>
-          <div>{{listens}}</div>
+          <div>{{date}}</div>
          </div> 
         <div class="card-player">
         <audio controls>
@@ -32,19 +35,12 @@
               Your browser does not support the
                         <code>audio</code> element.
         </audio>
-       
         <div class="track-reference">
-        
-           
-          <form action="/album/{{id}}/add" method="POST">
-          
-            <button type="submit" class="btn btn-primary">Add to album</button>
-          </form>
-         
-            <a href="/tracks/{{id}}" target="_blank">Open</a>
+          <form action="/album/{{_id}}/delete?_method=DELETE" method="POST">
+           <button class="btn red">Delete track</button>
+        </form>
+          <a href="/tracks/{{id}}" target="_blank">Open</a>
           <a href="/tracks/{{id}}/edit" target="_blank">Edit</a>
-          
-          
         </div>
       </div>
         </div>
@@ -53,5 +49,6 @@
   </div>
   
   {{/each}}
+  {{else}}
+  <h1>No tracks😞 <a href="/tracks">Add now</a></h1>
 {{/if}}
-

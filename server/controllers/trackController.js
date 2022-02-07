@@ -1,4 +1,6 @@
-const Track = require('../models/track')
+const Track = require('../models/track');
+const {isValidObjectId} = require('../services/trackService');
+const {validationResult} = require('express-validator');
 
 
 exports.getAll = async (req, res) => {
@@ -6,6 +8,7 @@ exports.getAll = async (req, res) => {
     const tracks = await Track.find().select('name artist img audio listens')
     res.render('tracks', {
       title: 'Tracks',
+      albumError: req.flash('albumError'),
       tracks
     });
   } catch (e) {
@@ -17,7 +20,26 @@ exports.getAll = async (req, res) => {
 
 exports.getOne = async (req, res) => {
   try {
+    const isValidId = isValidObjectId(req.params.id);
+
+    if (!isValidId) {
+      res.status(404).render('404', {
+        title: 'Page not found',
+        layout: 'empty',
+        link: process.env.SITE_URL
+      })
+    }
+
     const track = await Track.findById(req.params.id);
+    
+    if (!track) {
+      res.status(404).render('404', {
+        title: 'Page not found',
+        layout: 'empty',
+        link: process.env.SITE_URL
+      })
+    }
+    
     res.render('track', {
       layout: 'empty',
       title: `${track.name}`,
@@ -48,6 +70,7 @@ exports.getEdit = async (req, res) => {
     const track = await Track.findById(req.params.id);
     res.render('track-edit', {
       title: `Edit ${track.name}`,
+      editError: req.flash('editError'),
       track
     })
   } catch (e) {
@@ -58,6 +81,21 @@ exports.getEdit = async (req, res) => {
 
 
 exports.create = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).render('add', {
+      title: 'Add track',
+      addError: errors.array()[0].msg,
+      data: {
+        name: req.body.name,
+        artist: req.body.artist,
+        description: req.body.description
+      }
+    })
+  } 
+
+  
   const audioPath = req.files['audio'][0].path;
   const imgPath = req.files['img'][0].path;
 
@@ -104,6 +142,14 @@ exports.delete = async (req, res) => {
 
 
 exports.update = async (req, res) => {
+  const errors = validationResult(req);
+  const id = req.params.id;
+
+  if (!errors.isEmpty()) {
+    req.flash('editError', errors.array()[0].msg)
+    return res.status(422).redirect(`/tracks/${id}/edit`)
+  }  
+  
   const audioPath = req.files['audio'][0].path;
   const imgPath = req.files['img'][0].path;
   try {
