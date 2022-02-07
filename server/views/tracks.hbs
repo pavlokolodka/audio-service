@@ -1,4 +1,7 @@
 <h2 class="header">List of tracks</h2>
+{{#if albumError}}
+  <div class="alert-errors">{{albumError}}</div>
+{{/if}}
 <div class="header-colum">
   <h5 class="title">Title</h5>
   <h5 class="artist">Artist</h5>
@@ -7,6 +10,7 @@
 {{#if tracks.length}}
 
   {{#each tracks}}
+  
     <div class="col s12 m7">
     
     <div class="card horizontal">
@@ -28,9 +32,19 @@
               Your browser does not support the
                         <code>audio</code> element.
         </audio>
+       
         <div class="track-reference">
-          <a href="/tracks/{{id}}" target="_blank">Open</a>
+        
+           
+          <form action="/album/{{id}}/add" method="POST">
+          
+            <button type="submit" class="btn btn-primary">Add to album</button>
+          </form>
+         
+            <a href="/tracks/{{id}}" target="_blank">Open</a>
           <a href="/tracks/{{id}}/edit" target="_blank">Edit</a>
+          
+          
         </div>
       </div>
         </div>

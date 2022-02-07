@@ -12,6 +12,7 @@ const MongoStore = require('connect-mongodb-session')(session);
 const fileMiddleware = require('./middleware/file');
 const accessMiddlware = require('./middleware/contentAccess');
 const errorMiddleware = require('./middleware/404');
+const userMiddleware = require('./middleware/getUser');
 const methodOverride = require('method-override');
 const trackRouter = require('./routes/trackRouter');
 const albumRouter = require('./routes/albumRouter');
@@ -56,7 +57,7 @@ app.use(session({
 }));
 app.use(flash());
 app.use(accessMiddlware);
-
+app.use(userMiddleware);
 
 
 app.use('/tracks', trackRouter);

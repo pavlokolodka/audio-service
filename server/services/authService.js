@@ -44,6 +44,7 @@ exports.sendGreetEmail = async (name, email) => {
 
 exports.sendResetEmail = async (email, token) => {
   try {
+    console.log(email);
     await transporter.sendMail({
       from: process.env.USER_SMTP, 
       to: email, 
@@ -53,7 +54,7 @@ exports.sendResetEmail = async (email, token) => {
             <div>
               <h1>Reset password on the site ${process.env.SITE_URL}</h1>
               <h3>To reset your password follow the link ⬇️</h3>
-              <a href="${process.env.SITE_URL}/auth/password/:${token}">Link</a>
+              <a href="${process.env.SITE_URL}/auth/password/${token}">Link</a>
             </div>
            ` 
     });

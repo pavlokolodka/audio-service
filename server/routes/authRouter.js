@@ -2,6 +2,8 @@ const {Router} = require('express');
 const router = Router();
 const authController = require('../controllers/authController');
 const {loginValidator} = require('../middleware/validator');
+const {registerValidator} = require('../middleware/validator');
+const {passwordValidator} = require('../middleware/validator');
 
 
 
@@ -15,7 +17,7 @@ router.post('/login', loginValidator, authController.login);
 router.get('/register', authController.getRegisterPage);
 
 
-router.post('/register', authController.register);
+router.post('/register', registerValidator, authController.register);
 
 
 router.get('/logout', authController.logout);
@@ -30,11 +32,11 @@ router.post('/reset', authController.reset);
 router.get('/password/:token', authController.getPasswordPage);
 
 
-router.post('/password', authController.newPassword);
+router.post('/password', passwordValidator, authController.newPassword);
 
 
 
-//router.post('/login', authController.login);
+
 
 
 
