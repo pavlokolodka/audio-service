@@ -1,16 +1,22 @@
-const Track = require('../models/track');
-const {isValidObjectId} = require('../services/trackService');
+const trackService = require('../services/trackService');
 const {validationResult} = require('express-validator');
 
 
+function isOwner(track, req) {
+  return track.userId.toString() === req.user._id.toString()
+}
+
 exports.getAll = async (req, res) => {
   try {
-    const tracks = await Track.find().select('name artist img audio listens')
+    const tracks = await trackService.findTracks();
+    
     res.render('tracks', {
       title: 'Tracks',
       albumError: req.flash('albumError'),
+      userId: req.user ? req.user._id.toString() : null,
       tracks
     });
+    
   } catch (e) {
     console.log(e);
   }
@@ -20,7 +26,7 @@ exports.getAll = async (req, res) => {
 
 exports.getOne = async (req, res) => {
   try {
-    const isValidId = isValidObjectId(req.params.id);
+    const isValidId = trackService.isValidObjectId(req.params.id);
 
     if (!isValidId) {
       res.status(404).render('404', {
@@ -30,7 +36,7 @@ exports.getOne = async (req, res) => {
       })
     }
 
-    const track = await Track.findById(req.params.id);
+    const track = await trackService.findTrack(req);
     
     if (!track) {
       res.status(404).render('404', {
@@ -60,14 +66,18 @@ exports.getAddPage = (req, res) => {
   } catch(e) {
     console.log(e);
   }
-  
 }
 
 
 
 exports.getEdit = async (req, res) => {
   try {
-    const track = await Track.findById(req.params.id);
+    const track = await trackService.findTrack(req);
+
+    if (!isOwner(track, req)) {
+      return res.redirect('/tracks')
+    }
+
     res.render('track-edit', {
       title: `Edit ${track.name}`,
       editError: req.flash('editError'),
@@ -81,6 +91,7 @@ exports.getEdit = async (req, res) => {
 
 
 exports.create = async (req, res) => {
+  try {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -90,26 +101,15 @@ exports.create = async (req, res) => {
       data: {
         name: req.body.name,
         artist: req.body.artist,
-        description: req.body.description
+        description: req.body.description,
+        userId: req.user._id
       }
     })
   } 
 
-  
-  const audioPath = req.files['audio'][0].path;
-  const imgPath = req.files['img'][0].path;
+  await trackService.saveTrack(req);
 
-  const track = new Track({
-    name: req.body.name,
-    artist: req.body.artist,
-    description: req.body.description,
-    img: imgPath,
-    audio: audioPath
-  })
-
-  try {
-    await track.save();
-    res.redirect('/tracks')
+  res.redirect('/tracks')
   } catch (e) {
     console.log(e);
   }
@@ -119,10 +119,25 @@ exports.create = async (req, res) => {
 
 exports.search = async (req, res) => {
   try {
-    const track = await Track.find({
-      name: {$regex: new RegExp(req.params.name)}
-    });
-    res.json(track);
+    const searchValue = req.query.search;
+   
+    if (searchValue === ' ') {
+      req.flash('albumError', 'Value must not be empty')
+      return res.redirect('/tracks');
+    }
+    
+    const tracks = await trackService.searchTrack(req);
+
+    if (tracks.length === 0) {
+      req.flash('albumError', 'Track not found...')
+    }
+
+    return res.render('search-tracks', {
+      title: 'Tracks',
+      albumError: req.flash('albumError'),
+      tracks
+    })
+    
   } catch (e) {
     console.log(e);
   }
@@ -132,7 +147,13 @@ exports.search = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    const deletedTrack = await Track.deleteOne({_id: req.params.id});
+    const track = await trackService.findTrack(req);
+
+    if (!isOwner(track, req)) {
+      return res.redirect('/tracks')
+    }
+    
+    await trackService.deleteTrack(req);
     res.redirect('/tracks');
   } catch (e) {
     console.log(e);
@@ -142,6 +163,7 @@ exports.delete = async (req, res) => {
 
 
 exports.update = async (req, res) => {
+try {
   const errors = validationResult(req);
   const id = req.params.id;
 
@@ -150,17 +172,9 @@ exports.update = async (req, res) => {
     return res.status(422).redirect(`/tracks/${id}/edit`)
   }  
   
-  const audioPath = req.files['audio'][0].path;
-  const imgPath = req.files['img'][0].path;
-  try {
-    await Track.findByIdAndUpdate(req.params.id, {
-      name: req.body.name,
-      artist: req.body.artist,
-      description: req.body.description,
-      img: imgPath,
-      audio: audioPath
-    });
-    res.redirect('/tracks');
+  await trackService.updateTrack(req);
+
+  res.redirect('/tracks');
   } catch (e) {
     console.log(e);
   }
@@ -170,9 +184,7 @@ exports.update = async (req, res) => {
 
 exports.listen = async (req, res) => {
   try {
-    const track = await Track.findById(req.params.id);
-    track.listens += 1;
-    await track.save()
+    await trackService.addListens(req);
   } catch (e) {
     console.log(e);
   }

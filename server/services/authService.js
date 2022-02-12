@@ -1,5 +1,8 @@
 const randtoken = require('rand-token').generator();
 const nodemailer = require('nodemailer');
+const User = require('../models/user');
+const bcrypt = require('bcrypt');
+const authService = require('../services/authService');
 
 
 const transporter = nodemailer.createTransport({
@@ -44,7 +47,6 @@ exports.sendGreetEmail = async (name, email) => {
 
 exports.sendResetEmail = async (email, token) => {
   try {
-    console.log(email);
     await transporter.sendMail({
       from: process.env.USER_SMTP, 
       to: email, 
@@ -61,4 +63,57 @@ exports.sendResetEmail = async (email, token) => {
   } catch (e) {
     console.log(e);
   }
+}
+
+exports.saveSession = (candidate, req, res) => {
+  const user = candidate;
+    req.session.user = user;
+    req.session.isAuthenticated = true;
+    req.session.save(err => {
+      if (err) {
+        throw err
+      }
+      res.redirect('/')
+    });
+}
+
+
+exports.findUserByToken = async (resetToken) => {
+  return await User.findOne({resetToken});
+}
+
+exports.findUserByMail = async (email) => {
+  return await User.findOne({email});
+}
+
+
+exports.saveUser = async (name, password, email) => {
+  const hashPassword = await bcrypt.hash(password, 10);
+  const token = authService.newToken();
+
+  const user = new User({
+    name,
+    email,
+    password: hashPassword,
+    albums: [],
+    resetToken: token
+  });
+
+  await user.save();
+}
+
+
+exports.findUserByProp = async (req) => {
+  return await User.findOne({
+    _id: req.body.userId,
+    resetToken: req.body.token
+  })
+}
+
+
+exports.updateUserPassword = async (req, user) => {
+  const newToken = authService.newToken();
+  user.resetToken = newToken;
+  user.password =  await bcrypt.hash(req.body.password, 10);
+  await user.save();
 }

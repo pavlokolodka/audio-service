@@ -1,18 +1,17 @@
-const Track = require('../models/track');
-const User = require('../models/user');
 const albumService = require('../services/albumService');
+const trackService = require('../services/trackService');
 
 
 
 exports.getPage = async (req, res) => {
   try {
-    const user = await req.user.populate('album.trackId');
-    const album = user.album;
+    const album = await albumService.getUserAlbum(req);
 
-    const tracks = albumService.mapAlbum(album);
-    
+    const tracks = await albumService.mapAlbum(req, album);
+   
     res.render('album', {
       title: 'Album',
+      userId: req.user ? req.user._id.toString() : null,
       tracks: tracks
     })
   } catch (e) {
@@ -23,7 +22,7 @@ exports.getPage = async (req, res) => {
 
 exports.add = async (req, res) => {
   try {
-    const track = await Track.findById(req.params.id);
+    const track = await trackService.findTrack(req)
   
     await albumService.addToAlbum(req, res, track);
   } catch (e) {
@@ -34,17 +33,7 @@ exports.add = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    const sessionUser = await req.user;
-    await User.updateOne({_id: sessionUser._id}, { $pull: { 'album': {trackId: req.params.id} } });
-    const updateUser = await User.findById(req.user._id)
-    
-    req.session.user = updateUser;
-    req.session.save(err => {
-      if (err) {
-        throw err
-      }
-      res.redirect('/album')
-    });
+    await albumService.removeFromAlbum(req, res);
   } catch (e) {
     console.log(e);
   }
