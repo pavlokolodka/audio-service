@@ -16,10 +16,14 @@ const trackSchema = new Schema({
     type: String,
     required: true  
   },
-   listens: {
+  listens: {
      type: Number,
      default: 0
-   } 
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  } 
 })
 
 

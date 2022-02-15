@@ -1,3 +1,14 @@
+ body {
+ background-color: cyan;
+} 
+
+.responsive{
+  width: 100%;
+  
+  height: auto;
+}
+
+
 .card.horizontal .card-image img {
   height: 90px;
 }  
@@ -15,7 +26,6 @@
 .artist{
   margin-left: 155px;
 }
-
 
 
 .number{
@@ -46,6 +56,7 @@
   margin-left: -114px;
   display: flex;
   justify-content: space-between;
+  margin-right: -20px;
 }
 
 .track-reference {

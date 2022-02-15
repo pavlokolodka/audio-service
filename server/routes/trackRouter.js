@@ -11,10 +11,10 @@ router.get('/', trackController.getAll);
 router.get('/add', authMiddleware, trackController.getAddPage);
 
 
-router.get('/:id', authMiddleware, trackController.getOne);
-
-
 router.get('/search', authMiddleware, trackController.search);
+
+
+router.get('/:id', authMiddleware, trackController.getOne);
 
 
 router.get('/:id/edit', authMiddleware, trackController.getEdit);

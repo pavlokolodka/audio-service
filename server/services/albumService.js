@@ -35,7 +35,6 @@ exports.mapAlbum = async (req, album) => {
  //Validation for remote tracks
   for (let i = 0; i < album.length; i++) {
     if (album[i].trackId === null) {
-      console.log('yea')
       delete album[i];
     }
   }
