@@ -1,0 +1,39 @@
+<div class="auth">
+  <div class="row">
+  <div id="register" class="col s6 offset-s3">
+      <h1>Create new account</h1>
+      {{#if registerError}}
+        <div class="alert-errors">{{registerError}}</div>
+      {{/if}}
+      <form action="/auth/register" method="POST" novalidate>
+        <div class="input-field">
+          <input id="remail" name="email" type="email" class="validate" required>
+          <label for="remail">Email</label>
+          <span class="helper-text" data-error="Введите email"></span>
+        </div>
+
+        <div class="input-field">
+          <input id="rpassword" name="password" type="password" class="validate" required>
+          <label for="rpassword">Password</label>
+          <span class="helper-text" data-error="Введите пароль"></span>
+        </div>
+
+         <div class="input-field">
+          <input id="confirm" name="confirm" type="password" class="validate" required>
+          <label for="confirm">The password again</label>
+          <span class="helper-text" data-error="Введите пароль"></span>
+        </div>
+
+         <div class="input-field">
+          <input id="name" name="name" type="text" class="validate" required>
+          <label for="name">Your name</label>
+          <span class="helper-text" data-error="Input a name"></span>
+        </div>
+
+          <input type="hidden" name="_csrf" value="{{csrf}}">
+
+        <button class="btn btn-primary" type="submit">Register now </button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+<h2 class="header">List of tracks</h2>
+{{#if albumError}}
+  <div class="alert-errors">{{albumError}}</div>
+{{/if}}
+ <nav>
+    <div class="nav-wrapper">
+      <form action="/tracks/search"> 
+        <div class="input-field">
+          <input id="search" name="search" type="search" required>
+          <label class="label-icon" for="search"><i class="material-icons">🔎</i></label>
+          <i class="material-icons">❌</i>
+        </div>
+      </form>
+    </div>
+  </nav>
+<div class="header-colum">
+  <h5 class="title">Title</h5>
+  <h5 class="artist">Artist</h5>
+  <h5 class="number">Number of plays</h5>
+</div>  
+{{#if tracks.length}}
+
+  {{#each tracks}}
+  
+    <div class="col s12 m7">
+    
+    <div class="card horizontal">
+      <div class="card-image">
+        <img src="../{{img}}">
+      </div>
+      
+      <div class="card-stacked">
+        <div class="card-content">
+          <div class="card-description">
+          <div>{{name}}</div>
+          <div>{{artist}}</div>
+          <div>{{listens}}</div>
+         </div> 
+        <div class="card-player">
+        <audio controls>
+              <source src="../{{audio}}" type="audio/mpeg">
+              <source src="../{{audio}}" type="audio/ogg">
+              Your browser does not support the
+                        <code>audio</code> element.
+        </audio>
+       
+        <div class="track-reference">
+        
+           
+          <form action="/album/{{id}}/add" method="POST">
+          
+            <button type="submit" class="btn btn-primary">Add to album</button>
+            <button onclick="location.href='/tracks/{{id}}'" type="button" class="btn btn-primary">Open</button>
+           <button onclick="location.href='/tracks/{{id}}/edit'" type="button" class="btn btn-primary">Edit</button>
+           <input type="hidden" name="_csrf" value="{{@root.csrf}}">
+          </form>
+         
+         
+          
+          
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {{/each}}
+{{/if}}

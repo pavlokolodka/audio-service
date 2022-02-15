@@ -1,0 +1,24 @@
+ <div class="row">
+    <div class="col s12 m7">
+      <div class="card">
+        <div class="card-image">
+          <img src="../{{track.img}}" alt="{{track.name}}">
+          <span class="card-title">{{track.name}}</span>
+        </div>
+        <div class="card-content">
+          <div>Artist - {{track.artist}}</div>
+          <div>Listens - {{track.listens}}</div>
+          <div>Description - {{track.description}}</div>
+          <audio controls>
+              <source src="../{{track.audio}}" type="audio/mpeg">
+              <source src="../{{track.audio}}" type="audio/ogg">
+              Your browser does not support the
+                        <code>audio</code> element.
+        </audio>
+        </div>
+        <div class="card-action">
+          <a href="/tracks/{{id}}">This is a link</a>
+        </div>
+      </div>
+    </div>
+  </div>

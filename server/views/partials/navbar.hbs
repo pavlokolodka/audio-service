@@ -1,0 +1,20 @@
+ <nav>
+    <div class="nav-wrapper">
+      <a href="/" class="brand-logo">Audio Service</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        
+        {{#if isAuth}}
+        <li>Hi, {{name}}</li>
+        <li><a href="/">Main page</a></li>
+        <li><a href="/tracks">Tracks</a></li>
+        <li><a href="/tracks/add">Add your track</a></li>
+        <li><a href="/album">Album</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+        {{else}}
+        <li><a href="/">Main page</a></li>
+        <li><a href="/tracks">Tracks</a></li>
+        <li><a href="/auth/login">Login</a></li>
+        {{/if}}
+      </ul>
+    </div>
+  </nav>

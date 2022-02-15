@@ -1,0 +1,34 @@
+<div class="auth">
+  <div class="row">
+    <div id="login" class="col s6 offset-s3">
+      <h1>Login to the store </h1>
+      {{#if loginError}}
+        <div class="alert-errors">{{loginError}}</div>
+      {{/if}}
+      <form action="/auth/login" method="POST" novalidate>
+        <div class="input-field">
+          <input id="email" name="email" type="email" class="validate" required>
+          <label for="email">Email</label>
+          <span class="helper-text" data-error="Enter the email"></span>
+        </div>
+
+        <div class="input-field">
+          <input id="password" name="password" type="password" class="validate" required>
+          <label for="password">Password</label>
+          <span class="helper-text" data-error="Enter the password"></span>
+        </div>
+
+        <input type="hidden" name="_csrf" value="{{csrf}}">
+
+        <p><a href="/auth/reset">Forgot the password?</a></p>
+
+        <button class="btn btn-primary" type="submit">Login</button>
+      </form>
+      <br>
+      <h5>Don't have an account?</h5>
+      <p><a href="/auth/register">Sign Up</a></p> 
+    </div>
+    
+    </div>
+  </div>
+</div>

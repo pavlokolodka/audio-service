@@ -1,0 +1,60 @@
+
+<h1>Edit track - {{track.name}}</h1>
+
+{{#if editError}}
+   <div class="alert-errors">{{editError}}</div>
+ {{/if}}
+
+
+<form action="/tracks/{{track.id}}/update?_method=PUT" method="POST" enctype="multipart/form-data">
+  <div class="input-field">
+    <input  id="name" name="name" type="text" class="validate" required value="{{track.name}}">
+     <span class="helper-text" data-error="Input a track title"></span>
+    <label for="name">Name of the track</label>
+  </div>
+
+  <div class="input-field">
+    <input  id="artist" name="artist" type="text" class="validate" required value="{{track.artist}}">
+     <span class="helper-text" data-error="Input an artist name"></span>
+    <label for="artist">Artist name</label>
+  </div>
+
+
+  <div class="input-field">
+    <input  id="description" name="description" type="text" class="validate" required value="{{track.description}}">
+     <span class="helper-text" data-error="Input a description"></span>
+    <label for="description">Description</label>
+  </div>
+
+ 
+   <div class="file-field input-field">
+      <div class="btn">
+        <span>Upload picture</span>
+        <input type="file" name="img" accept="image/png, image/jpeg, image/jpg">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+
+  
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>Upload audio</span>
+        <input type="file" name="audio" accept="audio/ogg, audio/mpeg">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+ 
+  <input type="hidden" name="_csrf" value="{{csrf}}">
+  <button class="btn btn-primary">Edit</button>
+</form>
+<br>
+
+
+<form action="/tracks/{{track.id}}/delete?_method=DELETE" method="POST">
+  <button class="btn red">Delete track</button>
+  <input type="hidden" name="_csrf" value="{{csrf}}">
+</form>
