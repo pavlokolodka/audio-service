@@ -38,9 +38,12 @@
         <div class="track-reference">
           <form action="/album/{{_id}}/delete?_method=DELETE" method="POST">
            <button class="btn red">Delete track</button>
+           <button onclick="location.href='/tracks/{{_id}}'" type="button" class="btn btn-primary">Open</button>
+           {{#ifequal userId._id @root.userId}}
+           <button onclick="location.href='/tracks/{{_id}}/edit'" type="button" class="btn btn-primary">Edit</button>
+           {{/ifequal}}
+           <input type="hidden" name="_csrf" value="{{@root.csrf}}">
         </form>
-          <a href="/tracks/{{id}}" target="_blank">Open</a>
-          <a href="/tracks/{{id}}/edit" target="_blank">Edit</a>
         </div>
       </div>
         </div>

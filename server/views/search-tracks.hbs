@@ -26,7 +26,7 @@
     
     <div class="card horizontal">
       <div class="card-image">
-        <img src="{{img}}">
+        <img src="../{{img}}">
       </div>
       
       <div class="card-stacked">
@@ -37,31 +37,26 @@
           <div>{{listens}}</div>
          </div> 
         <div class="card-player">
-        <audio id="Audio" controls >
-              <source src="{{audio}}" type="audio/mpeg">
-              <source src="{{audio}}" type="audio/ogg">
+        <audio controls>
+              <source src="../{{audio}}" type="audio/mpeg">
+              <source src="../{{audio}}" type="audio/ogg">
               Your browser does not support the
                         <code>audio</code> element.
         </audio>
-        <div>{{isAuth}}</div>
+       
         <div class="track-reference">
-         
-           {{#ifequal userId._id @root.userId}}
+        
+           
           <form action="/album/{{id}}/add" method="POST">
           
             <button type="submit" class="btn btn-primary">Add to album</button>
             <button onclick="location.href='/tracks/{{id}}'" type="button" class="btn btn-primary">Open</button>
-            <button onclick="location.href='/tracks/{{id}}/edit'" type="button" class="btn btn-primary">Edit</button>
-            <input type="hidden" name="_csrf" value="{{@root.csrf}}">
-          </form>
-          {{else}}
-           <form action="/album/{{id}}/add" method="POST">
-          
-            <button type="submit" class="btn btn-primary">Add to album</button>
-            <button onclick="location.href='/tracks/{{id}}'" type="button" class="btn btn-primary">Open</button>
+           <button onclick="location.href='/tracks/{{id}}/edit'" type="button" class="btn btn-primary">Edit</button>
            <input type="hidden" name="_csrf" value="{{@root.csrf}}">
           </form>
-          {{/ifequal}}
+         
+         
+          
           
         </div>
       </div>
@@ -69,8 +64,6 @@
       </div>
     </div>
   </div>
-
   
   {{/each}}
 {{/if}}
-

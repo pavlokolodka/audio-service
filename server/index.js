@@ -1,9 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const helmet = require('helmet');
 const exphbs = require('express-handlebars');
 const Handlebars = require("handlebars");
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
+const csrf = require('csurf');
 const flash = require('connect-flash');
 const path = require('path');
 require('dotenv').config();
@@ -29,7 +31,8 @@ app.use(express.json());
 const hbs = exphbs.create({
   defaultLayout: 'main', 
   extname: 'hbs',
-  handlebars: allowInsecurePrototypeAccess(Handlebars)
+  handlebars: allowInsecurePrototypeAccess(Handlebars),
+  helpers: require('./helpers/hbs-helper')
 });
 
 const store = new MongoStore({
@@ -55,7 +58,13 @@ app.use(session({
   saveUninitialized: false,
   store: store
 }));
+app.use(csrf());
 app.use(flash());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 app.use(accessMiddlware);
 app.use(userMiddleware);
 
