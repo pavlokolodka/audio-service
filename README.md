@@ -3,7 +3,7 @@ It is a music platform that provides listening, adding, and searching for tracks
 You can also register to save your favorite songs.<br>
 
 #### Demo-version:
->[music-servise.herokuapp.com](music-servise.herokuapp.com)
+>[music-servise.herokuapp.com](https://music-servise.herokuapp.com)
 
 ---
 #### Used tools:
